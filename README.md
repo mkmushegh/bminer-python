@@ -1,5 +1,2 @@
-# hello-world
-This is a simple repository
+# Python scripts to automate some mining processes with bminer 
 
-hdjshjdhsajkdhsjkdf
-hsdjfhjksdfhjkdsfhkjds
