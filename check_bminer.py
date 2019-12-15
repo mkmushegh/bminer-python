@@ -17,9 +17,6 @@ def get_gpu_info(param):
           if temp != '':
               final_list.append(temp)
 
-      #final_list[id] = 61, 100 %, 273.27 W (string type)
-      #print(final_list)
-
       #closing subprocess
       sp.kill()
 
@@ -94,13 +91,12 @@ def get_gpu_count_from_bminer():
 def restart_bMiner():
    os.system("taskkill /f /im  bminer.exe")
    sleep(5)
-   os.chdir("C:/Users/Syunik3/Desktop/bminer-v9.0.0-199ca8c")
+   os.chdir("path_to_miner_folder")
    os.startfile("mine.bat")
    sleep(15)
 
 print('will start miner check within 15 sec...')
 sleep(15)
-errorCounter = 0
 os.environ['NO_PROXY'] = '127.0.0.1'
 while True:
    try:
@@ -134,7 +130,7 @@ while True:
 
          try:
             post_data = {}
-            post_data['miner'] = 'Syunik3'
+            post_data['miner'] = 'miner_name'
             for i in range(6):
                post_data['gpu{}'.format(i)] = hashrates[i]
                post_data['gpu{}temp'.format(i)] = temps[i]
@@ -142,27 +138,12 @@ while True:
                post_data['gpu{}fan'.format(i)] = fans[i]
             post_data['pytime'] = datetime.datetime.utcnow()
 
-            r2 = requests.post("https://artkaren.com/soltimine", data = post_data)
+            r2 = requests.post("your_server_url", data = post_data)
             print(r2.status_code, r2.reason)
          except:
             print('Error sending data to the server')
 
-         #hashrates = get_hashes_from_bminer()
-         #hashrates.sort()
-         #if hashrates[0] < 10:
-         #   print("one of the GPU's hashrate is less than 10 Sol/s, restart...")
-            #os.system("shutdown /r /t 1")
-            #restart_bMiner()
-
       sleep(20)
    except:
-      if errorCounter < 5:
-         print('error getting data from miner, will try again in 10 sec...')
-         errorCounter += 1
-         sleep(10)
-      else:
-         print('too many errors, restarting the system in 10 sec...')
-         sleep(10)
-         errorCounter = 0
-         #restart_bMiner()
-         #os.system("shutdown /r /t 1")
+      print('error getting data from miner, will try again in 10 sec...')
+      sleep(10)
